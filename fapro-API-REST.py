@@ -13,14 +13,19 @@ def get_uf_url(date):
 def get_uf(day, month, year):
     """Obtiene el valor de la UF para una fecha dada."""
     try:
-        # Validar fecha
-        date = datetime(year, month, day)
+        # Validar fecha mínima
+        min_date = datetime(2013, 1, 1)
+        query_date = datetime(year, month, day)
+        if query_date < min_date:
+            raise ValueError("La fecha mínima de consulta es: 01-01-2013.")
+
+        # Validar fecha máxima
         now = datetime.now()
-        if date > now:
+        if query_date > now:
             raise ValueError("La fecha no puede ser futura.")
 
         # Obtener URL de la UF
-        url = get_uf_url(date)
+        url = get_uf_url(query_date)
 
         # Consultar valor de la UF
         s = HTMLSession()
